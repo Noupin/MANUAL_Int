@@ -7,5 +7,16 @@
   },
   "[prisma]": {
     "editor.formatOnSave": true
+  },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "activeClassName",
+    "errorClassName"
+  ],
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#173505",
+    "titleBar.activeBackground": "#204A07",
+    "titleBar.activeForeground": "#F2FDEB"
   }
 }
