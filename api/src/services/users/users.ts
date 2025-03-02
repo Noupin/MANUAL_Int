@@ -16,7 +16,7 @@ export const user: QueryResolvers['user'] = ({ id }) => {
   })
 }
 
-export const coaches: QueryResolvers['users'] = () => {
+export const coaches: QueryResolvers['coaches'] = () => {
   return db.user.findMany({
     where: { coach: true },
   })

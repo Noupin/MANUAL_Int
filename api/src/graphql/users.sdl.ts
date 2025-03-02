@@ -3,7 +3,7 @@ export const schema = gql`
     id: Int!
     name: String!
     hashedPassword: String!
-    salt: String
+    salt: String!
     resetToken: String
     resetTokenExpiresAt: DateTime
     coach: Boolean!
@@ -19,7 +19,7 @@ export const schema = gql`
   input CreateUserInput {
     name: String!
     hashedPassword: String!
-    salt: String
+    salt: String!
     resetToken: String
     resetTokenExpiresAt: DateTime
     coach: Boolean!

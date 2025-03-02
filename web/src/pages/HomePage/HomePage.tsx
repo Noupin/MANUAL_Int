@@ -1,32 +1,17 @@
 import { useEffect, useState } from 'react'
 
-import {
-  CreateReviewInput,
-  CreateReviewMutation,
-  CreateReviewMutationVariables,
-} from 'types/graphql'
+import { CreateReviewInput } from 'types/graphql'
 
-import { Metadata, TypedDocumentNode, useMutation } from '@redwoodjs/web'
+import { Metadata, useMutation, useQuery } from '@redwoodjs/web'
 
 import { Rating } from 'src/components/ui/Rating'
 import {
   autoGrowTextArea,
+  CREATE_FULL_REVIEW_MUTATION,
   MIN_TEXT_AREA_HEIGHT,
+  QUERY_COACHES,
   TOTAL_TEXT_AREA_NON_TEXT_HEIGHT,
-} from 'src/utils'
-
-const CREATE_FULL_REVIEW_MUTATION: TypedDocumentNode<
-  CreateReviewMutation,
-  CreateReviewMutationVariables
-> = gql`
-  mutation CreateReviewMutation($input: CreateReviewInput!) {
-    createReview(input: $input) {
-      comment
-      rating
-      userId
-    }
-  }
-`
+} from 'src/lib/utils'
 
 const HomePage = () => {
   const [anon, setAnon] = useState(false)
@@ -35,8 +20,17 @@ const HomePage = () => {
     MIN_TEXT_AREA_HEIGHT + TOTAL_TEXT_AREA_NON_TEXT_HEIGHT
   )
   const [feedback, setFeedback] = useState('')
+  const [coachId, setCoachId] = useState(0)
 
   const [createReview] = useMutation(CREATE_FULL_REVIEW_MUTATION)
+  const { data } = useQuery(QUERY_COACHES)
+
+  useEffect(() => {
+    if (!data) return
+
+    console.log('Coaches:', data)
+    setCoachId(data.coaches[0].id)
+  }, [data])
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -75,7 +69,7 @@ const HomePage = () => {
       comment: feedback,
     }
     if (!anon) {
-      input.userId = 1
+      input.userId = coachId
     }
     createReview({
       variables: {
@@ -84,10 +78,16 @@ const HomePage = () => {
     })
   }
 
+  const ref = React.useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    console.log('Text Area Height:', textAreaHeight)
+    console.log('Ref:', ref.current.clientHeight)
+  }, [textAreaHeight])
+
   return (
     <>
       <Metadata title="Home" description="Home page" />
-      <body className="min-w-screen max-w-screen flex max-h-screen min-h-screen flex-col">
+      <div className="min-w-screen max-w-screen flex max-h-screen min-h-screen flex-col">
         <header className="bg-manualBlue px-2 py-2">
           {/* <img src="/manual_logo.svg" alt="Manual Logo" className="grayscale" /> */}
           <h1 className="w-fit border-2 border-white px-1 text-xl font-extrabold text-white">
@@ -107,12 +107,13 @@ const HomePage = () => {
             <Rating rating={rating} setRating={setRating} />
 
             <textarea
+              ref={ref}
               className="max-h-96 min-h-16 w-full rounded border p-2"
               style={{ height: textAreaHeight }}
               value={feedback}
               onChange={(e) => {
                 setFeedback(e.target.value)
-                autoGrowTextArea(e, setTextAreaHeight)
+                autoGrowTextArea(e.target, setTextAreaHeight)
               }}
               placeholder="Enter your feedback here..."
             />
@@ -145,7 +146,7 @@ const HomePage = () => {
             </div>
           </section>
         </main>
-      </body>
+      </div>
     </>
   )
 }

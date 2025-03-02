@@ -91,6 +91,7 @@ const UserForm = (props: UserFormProps) => {
           defaultValue={props.user?.salt}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
         />
 
         <FieldError name="salt" className="rw-field-error" />

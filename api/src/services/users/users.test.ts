@@ -26,7 +26,24 @@ describe('users', () => {
   scenario('returns all coaches', async (scenario: StandardScenario) => {
     const result = await coaches()
 
-    expect(result.length).toEqual(Object.keys(scenario.user).length - 1)
+    expect(result.every((user) => user.coach)).toBe(true)
+    expect(result).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: scenario.user.two.id, // The user where `coach: true`
+          name: scenario.user.two.name,
+          coach: true,
+        }),
+      ])
+    )
+    expect(result).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: scenario.user.one.id, // The user where `coach: false`
+          coach: false,
+        }),
+      ])
+    )
   })
 
   scenario('returns a single user', async (scenario: StandardScenario) => {
@@ -37,22 +54,28 @@ describe('users', () => {
 
   scenario('creates a user', async () => {
     const result = await createUser({
-      input: { name: 'String5454217', hashedPassword: 'String', coach: true },
+      input: {
+        name: 'String1559526',
+        hashedPassword: 'String',
+        salt: 'String',
+        coach: false,
+      },
     })
 
-    expect(result.name).toEqual('String5454217')
+    expect(result.name).toEqual('String1559526')
     expect(result.hashedPassword).toEqual('String')
-    expect(result.coach).toEqual(true)
+    expect(result.salt).toEqual('String')
+    expect(result.coach).toEqual(false)
   })
 
   scenario('updates a user', async (scenario: StandardScenario) => {
     const original = (await user({ id: scenario.user.one.id })) as User
     const result = await updateUser({
       id: original.id,
-      input: { name: 'String42514132' },
+      input: { name: 'String30492142' },
     })
 
-    expect(result.name).toEqual('String42514132')
+    expect(result.name).toEqual('String30492142')
   })
 
   scenario('deletes a user', async (scenario: StandardScenario) => {
