@@ -28,28 +28,23 @@ describe('reviews', () => {
     expect(result).toEqual(scenario.review.one)
   })
 
-  scenario('creates a review', async (scenario: StandardScenario) => {
+  scenario('creates a review', async () => {
     const result = await createReview({
-      input: {
-        rating: 8576543,
-        comment: 'String',
-        userId: scenario.review.two.userId,
-      },
+      input: { rating: 5140920, comment: 'String' },
     })
 
-    expect(result.rating).toEqual(8576543)
+    expect(result.rating).toEqual(5140920)
     expect(result.comment).toEqual('String')
-    expect(result.userId).toEqual(scenario.review.two.userId)
   })
 
   scenario('updates a review', async (scenario: StandardScenario) => {
     const original = (await review({ id: scenario.review.one.id })) as Review
     const result = await updateReview({
       id: original.id,
-      input: { rating: 7927913 },
+      input: { rating: 6218783 },
     })
 
-    expect(result.rating).toEqual(7927913)
+    expect(result.rating).toEqual(6218783)
   })
 
   scenario('deletes a review', async (scenario: StandardScenario) => {

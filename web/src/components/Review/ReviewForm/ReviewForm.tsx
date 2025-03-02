@@ -84,7 +84,7 @@ const ReviewForm = (props: ReviewFormProps) => {
           defaultValue={props.review?.userId}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
+          emptyAs={'undefined'}
         />
 
         <FieldError name="userId" className="rw-field-error" />

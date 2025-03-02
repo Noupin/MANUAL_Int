@@ -18,17 +18,21 @@ generator client {
 // to create migrations for them and apply to your dev DB.
 // TODO: Please remove the following example:
 model User {
-  id    Int     @id @default(autoincrement())
-  name  String
-  coach Boolean @default(false)
-  reviews Review[]
+  id                  Int @id @default(autoincrement())
+  name                String @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  coach               Boolean @default(false)
+  reviews             Review[]
 }
 
 model Review {
-  id        Int      @id @default(autoincrement())
+  id        Int @id @default(autoincrement())
   rating    Int
   comment   String
   user      User? @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    Int?
   createdAt DateTime @default(now())
 }

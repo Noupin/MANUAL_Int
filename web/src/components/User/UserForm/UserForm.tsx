@@ -7,9 +7,16 @@ import {
   FieldError,
   Label,
   TextField,
+  DatetimeLocalField,
   CheckboxField,
   Submit,
 } from '@redwoodjs/forms'
+
+const formatDatetime = (value) => {
+  if (value) {
+    return value.replace(/:\d{2}\.\d{3}\w/, '')
+  }
+}
 
 type FormUser = NonNullable<EditUserById['user']>
 
@@ -48,9 +55,79 @@ const UserForm = (props: UserFormProps) => {
           defaultValue={props.user?.name}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
         />
 
         <FieldError name="name" className="rw-field-error" />
+
+        <Label
+          name="hashedPassword"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Hashed password
+        </Label>
+
+        <TextField
+          name="hashedPassword"
+          defaultValue={props.user?.hashedPassword}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+          validation={{ required: true }}
+        />
+
+        <FieldError name="hashedPassword" className="rw-field-error" />
+
+        <Label
+          name="salt"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Salt
+        </Label>
+
+        <TextField
+          name="salt"
+          defaultValue={props.user?.salt}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="salt" className="rw-field-error" />
+
+        <Label
+          name="resetToken"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Reset token
+        </Label>
+
+        <TextField
+          name="resetToken"
+          defaultValue={props.user?.resetToken}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="resetToken" className="rw-field-error" />
+
+        <Label
+          name="resetTokenExpiresAt"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Reset token expires at
+        </Label>
+
+        <DatetimeLocalField
+          name="resetTokenExpiresAt"
+          defaultValue={formatDatetime(props.user?.resetTokenExpiresAt)}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <FieldError name="resetTokenExpiresAt" className="rw-field-error" />
 
         <Label
           name="coach"

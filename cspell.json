@@ -4,6 +4,11 @@
   "words": [
     "autoincrement",
     "datamodels",
+    "Mutationcreate",
+    "Mutationdelete",
+    "Mutationupdate",
+    "Queryreview",
+    "Queryuser",
     "redwoodjs"
   ],
   "ignoreWords": [],

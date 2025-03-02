@@ -124,10 +124,10 @@ export const handler = async (
     }) => {
       return db.user.create({
         data: {
-          email: username,
+          name: username,
           hashedPassword: hashedPassword,
           salt: salt,
-          // name: userAttributes.name
+          // name: userAtÍtributes.name
         },
       })
     },
@@ -156,7 +156,7 @@ export const handler = async (
 
     // The name of the property you'd call on `db` to access your user credentials table.
     // ie. if your Prisma model is named `UserCredential` this value would be `userCredential`, as in `db.userCredential`
-    credentialModelAccessor: 'userCredential',
+    credentialModelAccessor: 'user',
 
     // A map of what dbAuth calls a field to what your database calls it.
     // `id` is whatever column you use to uniquely identify a user (probably
@@ -168,7 +168,7 @@ export const handler = async (
       salt: 'salt',
       resetToken: 'resetToken',
       resetTokenExpiresAt: 'resetTokenExpiresAt',
-      challenge: 'webAuthnChallenge',
+      // challenge: 'webAuthnChallenge',
     },
 
     // Specifies attributes on the cookie that dbAuth sets in order to remember

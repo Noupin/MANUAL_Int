@@ -3,20 +3,20 @@ export const schema = gql`
     id: Int!
     rating: Int!
     comment: String!
-    user: User!
-    userId: Int!
+    user: User
+    userId: Int
     createdAt: DateTime!
   }
 
   type Query {
-    reviews: [Review!]! @skipAuth
-    review(id: Int!): Review @skipAuth
+    reviews: [Review!]! @requireAuth
+    review(id: Int!): Review @requireAuth
   }
 
   input CreateReviewInput {
     rating: Int!
     comment: String!
-    userId: Int!
+    userId: Int
   }
 
   input UpdateReviewInput {
@@ -26,7 +26,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createReview(input: CreateReviewInput!): Review! @skipAuth
+    createReview(input: CreateReviewInput!): Review! @requireAuth
     updateReview(id: Int!, input: UpdateReviewInput!): Review! @requireAuth
     deleteReview(id: Int!): Review! @requireAuth
   }

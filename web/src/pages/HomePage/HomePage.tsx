@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react'
 
-import { Metadata, useMutation } from '@redwoodjs/web'
+import {
+  CreateReviewInput,
+  CreateReviewMutation,
+  CreateReviewMutationVariables,
+} from 'types/graphql'
+
+import { Metadata, TypedDocumentNode, useMutation } from '@redwoodjs/web'
 
 import { Rating } from 'src/components/ui/Rating'
 import {
@@ -8,6 +14,19 @@ import {
   MIN_TEXT_AREA_HEIGHT,
   TOTAL_TEXT_AREA_NON_TEXT_HEIGHT,
 } from 'src/utils'
+
+const CREATE_FULL_REVIEW_MUTATION: TypedDocumentNode<
+  CreateReviewMutation,
+  CreateReviewMutationVariables
+> = gql`
+  mutation CreateReviewMutation($input: CreateReviewInput!) {
+    createReview(input: $input) {
+      comment
+      rating
+      userId
+    }
+  }
+`
 
 const HomePage = () => {
   const [anon, setAnon] = useState(false)
@@ -17,7 +36,7 @@ const HomePage = () => {
   )
   const [feedback, setFeedback] = useState('')
 
-  // const [createReview] = useMutation(CREATE_REVIEW_MUTATION)
+  const [createReview] = useMutation(CREATE_FULL_REVIEW_MUTATION)
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -49,18 +68,21 @@ const HomePage = () => {
     }
   }, [feedback])
 
-  // function submitFeedback() {
-  //   console.log('Feedback:', feedback)
-  //   createReview({
-  //     variables: {
-  //       input: {
-  //         rating: rating,
-  //         feedback: feedback,
-  //         anonymous: anon,
-  //       },
-  //     },
-  //   })
-  // }
+  function submitFeedback() {
+    console.log('Feedback:', feedback)
+    const input: CreateReviewInput = {
+      rating: rating,
+      comment: feedback,
+    }
+    if (!anon) {
+      input.userId = 1
+    }
+    createReview({
+      variables: {
+        input,
+      },
+    })
+  }
 
   return (
     <>
@@ -114,7 +136,10 @@ const HomePage = () => {
                   identity.
                 </span>
               </div>
-              <button className="rounded-lg border-2 border-manualBlue px-2 py-1 transition-colors hover:bg-manualBlue hover:text-white">
+              <button
+                onClick={submitFeedback}
+                className="rounded-lg border-2 border-manualBlue px-2 py-1 transition-colors hover:bg-manualBlue hover:text-white"
+              >
                 Submit
               </button>
             </div>

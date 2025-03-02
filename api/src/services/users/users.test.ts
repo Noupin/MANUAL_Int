@@ -1,6 +1,13 @@
 import type { User } from '@prisma/client'
 
-import { users, user, createUser, updateUser, deleteUser } from './users'
+import {
+  users,
+  user,
+  createUser,
+  updateUser,
+  deleteUser,
+  coaches,
+} from './users'
 import type { StandardScenario } from './users.scenarios'
 
 // Generated boilerplate tests do not account for all circumstances
@@ -16,6 +23,12 @@ describe('users', () => {
     expect(result.length).toEqual(Object.keys(scenario.user).length)
   })
 
+  scenario('returns all coaches', async (scenario: StandardScenario) => {
+    const result = await coaches()
+
+    expect(result.length).toEqual(Object.keys(scenario.user).length - 1)
+  })
+
   scenario('returns a single user', async (scenario: StandardScenario) => {
     const result = await user({ id: scenario.user.one.id })
 
@@ -24,21 +37,22 @@ describe('users', () => {
 
   scenario('creates a user', async () => {
     const result = await createUser({
-      input: { name: 'String5099506', coach: false },
+      input: { name: 'String5454217', hashedPassword: 'String', coach: true },
     })
 
-    expect(result.name).toEqual('String5099506')
-    expect(result.coach).toEqual(false)
+    expect(result.name).toEqual('String5454217')
+    expect(result.hashedPassword).toEqual('String')
+    expect(result.coach).toEqual(true)
   })
 
   scenario('updates a user', async (scenario: StandardScenario) => {
     const original = (await user({ id: scenario.user.one.id })) as User
     const result = await updateUser({
       id: original.id,
-      input: { name: 'String83979332' },
+      input: { name: 'String42514132' },
     })
 
-    expect(result.name).toEqual('String83979332')
+    expect(result.name).toEqual('String42514132')
   })
 
   scenario('deletes a user', async (scenario: StandardScenario) => {
