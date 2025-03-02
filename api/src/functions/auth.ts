@@ -163,7 +163,7 @@ export const handler = async (
     // something like `id` or `userId` or even `email`)
     authFields: {
       id: 'id',
-      username: 'email',
+      username: 'name',
       hashedPassword: 'hashedPassword',
       salt: 'salt',
       resetToken: 'resetToken',

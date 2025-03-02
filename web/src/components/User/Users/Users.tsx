@@ -50,7 +50,6 @@ const UsersList = ({ users }: FindUsers) => {
         <thead>
           <tr>
             <th>Id</th>
-            <th>Email</th>
             <th>Name</th>
             <th>Coach</th>
             <th>&nbsp;</th>
@@ -60,7 +59,6 @@ const UsersList = ({ users }: FindUsers) => {
           {users.map((user) => (
             <tr key={user.id}>
               <td>{truncate(user.id)}</td>
-              <td>{truncate(user.email)}</td>
               <td>{truncate(user.name)}</td>
               <td>{checkboxInputTag(user.coach)}</td>
               <td>

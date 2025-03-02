@@ -1,0 +1,16 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "autoincrement",
+    "datamodels",
+    "redwoodjs"
+  ],
+  "ignoreWords": [],
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "build/**"
+  ],
+  "import": []
+}

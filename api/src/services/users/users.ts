@@ -16,6 +16,12 @@ export const user: QueryResolvers['user'] = ({ id }) => {
   })
 }
 
+export const coaches: QueryResolvers['coaches'] = () => {
+  return db.user.findMany({
+    where: { coach: true },
+  })
+}
+
 export const createUser: MutationResolvers['createUser'] = ({ input }) => {
   return db.user.create({
     data: input,

@@ -36,24 +36,6 @@ const UserForm = (props: UserFormProps) => {
         />
 
         <Label
-          name="email"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Email
-        </Label>
-
-        <TextField
-          name="email"
-          defaultValue={props.user?.email}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="email" className="rw-field-error" />
-
-        <Label
           name="name"
           className="rw-label"
           errorClassName="rw-label rw-label-error"

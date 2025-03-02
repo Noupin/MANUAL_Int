@@ -19,11 +19,9 @@ generator client {
 // TODO: Please remove the following example:
 model User {
   id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  name  String
   coach Boolean @default(false)
   reviews Review[]
-	@@map("UserExample")
 }
 
 model Review {

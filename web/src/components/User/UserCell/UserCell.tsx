@@ -13,7 +13,6 @@ export const QUERY: TypedDocumentNode<FindUserById, FindUserByIdVariables> =
     query FindUserById($id: Int!) {
       user: user(id: $id) {
         id
-        email
         name
         coach
       }

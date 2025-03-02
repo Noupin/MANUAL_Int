@@ -9,8 +9,8 @@ export const schema = gql`
   }
 
   type Query {
-    reviews: [Review!]! @requireAuth
-    review(id: Int!): Review @requireAuth
+    reviews: [Review!]! @skipAuth
+    review(id: Int!): Review @skipAuth
   }
 
   input CreateReviewInput {
@@ -26,7 +26,7 @@ export const schema = gql`
   }
 
   type Mutation {
-    createReview(input: CreateReviewInput!): Review! @requireAuth
+    createReview(input: CreateReviewInput!): Review! @skipAuth
     updateReview(id: Int!, input: UpdateReviewInput!): Review! @requireAuth
     deleteReview(id: Int!): Review! @requireAuth
   }
