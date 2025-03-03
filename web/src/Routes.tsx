@@ -25,6 +25,7 @@ const Routes = () => {
         <Route path="/users/{id:Int}/edit" page={UserEditUserPage} name="editUser" />
         <Route path="/users/{id:Int}" page={UserUserPage} name="user" />
         <Route path="/users" page={UserUsersPage} name="users" />
+        <Route path="/coaches" page={UserCoachesPage} name="coaches" />
       </Set>
       <Route path="/" page={HomePage} name="home" />
       <Set wrap={ScaffoldLayout} title="Reviews" titleTo="reviews" buttonLabel="New Review" buttonTo="newReview">
