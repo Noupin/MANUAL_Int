@@ -9,6 +9,7 @@ import { TypedDocumentNode } from '@redwoodjs/web'
 
 export const MIN_TEXT_AREA_HEIGHT = 62
 export const TOTAL_TEXT_AREA_NON_TEXT_HEIGHT = 16
+export const SUBMITTED_DURATION = 1500
 
 export function autoGrowTextArea(
   element: HTMLTextAreaElement,
@@ -16,10 +17,6 @@ export function autoGrowTextArea(
 ) {
   element.style.height = '0px'
   setTextAreaHeight(element.scrollHeight + TOTAL_TEXT_AREA_NON_TEXT_HEIGHT)
-  console.log(
-    'element.scrollHeight',
-    element.scrollHeight + TOTAL_TEXT_AREA_NON_TEXT_HEIGHT
-  )
   element.style.height = `${element.scrollHeight + TOTAL_TEXT_AREA_NON_TEXT_HEIGHT}px`
 }
 

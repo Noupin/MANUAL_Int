@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface RatingProps {
   rating?: number
@@ -9,8 +9,30 @@ export const Rating: React.FC<RatingProps> = (props) => {
   const { rating, setRating } = props
   const [hoveredRating, setHoveredRating] = useState(0)
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.target instanceof HTMLTextAreaElement) return
+      const key = parseInt(event.key)
+      if (key >= 1 && key <= 5) {
+        setRating(key)
+      }
+      if (key < 1) {
+        setRating(1)
+      }
+
+      if (key > 5) {
+        setRating(5)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [setRating])
+
   return (
-    <div className="bg-manualLighterBlue my-4 flex rounded-md">
+    <div className="my-4 flex rounded-md bg-manualLighterBlue">
       {[1, 2, 3, 4, 5].map((num) => (
         <button
           key={num}

@@ -4,12 +4,15 @@
   "words": [
     "autoincrement",
     "datamodels",
+    "dbauth",
     "Mutationcreate",
     "Mutationdelete",
     "Mutationupdate",
     "Queryreview",
     "Queryuser",
-    "redwoodjs"
+    "redwoodjs",
+    "sdls",
+    "serverful"
   ],
   "ignoreWords": [],
   "ignorePaths": [

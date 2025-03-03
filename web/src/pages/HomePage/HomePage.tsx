@@ -10,6 +10,7 @@ import {
   CREATE_FULL_REVIEW_MUTATION,
   MIN_TEXT_AREA_HEIGHT,
   QUERY_COACHES,
+  SUBMITTED_DURATION,
   TOTAL_TEXT_AREA_NON_TEXT_HEIGHT,
 } from 'src/lib/utils'
 
@@ -21,6 +22,8 @@ const HomePage = () => {
   )
   const [feedback, setFeedback] = useState('')
   const [coachId, setCoachId] = useState(0)
+  const [justSubmitted, setJustSubmitted] = useState(false)
+  const timerRef = React.useRef<NodeJS.Timeout | null>(null)
 
   const [createReview] = useMutation(CREATE_FULL_REVIEW_MUTATION)
   const { data } = useQuery(QUERY_COACHES)
@@ -28,31 +31,8 @@ const HomePage = () => {
   useEffect(() => {
     if (!data) return
 
-    console.log('Coaches:', data)
     setCoachId(data.coaches[0].id)
   }, [data])
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.target instanceof HTMLTextAreaElement) return
-      const key = parseInt(event.key)
-      if (key >= 1 && key <= 5) {
-        setRating(key)
-      }
-      if (key < 1) {
-        setRating(1)
-      }
-
-      if (key > 5) {
-        setRating(5)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [])
 
   useEffect(() => {
     const messageWithoutLeadingNewlines = feedback.replace(/^\n+/, '')
@@ -76,13 +56,26 @@ const HomePage = () => {
         input,
       },
     })
+
+    setJustSubmitted(true)
   }
 
-  const ref = React.useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
-    console.log('Text Area Height:', textAreaHeight)
-    console.log('Ref:', ref.current.clientHeight)
-  }, [textAreaHeight])
+    if (justSubmitted) {
+      timerRef.current = setTimeout(() => {
+        setJustSubmitted(false)
+      }, SUBMITTED_DURATION)
+      return () => {
+        clearTimeout(timerRef.current)
+      }
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
+    }
+  }, [justSubmitted])
 
   return (
     <>
@@ -107,7 +100,6 @@ const HomePage = () => {
             <Rating rating={rating} setRating={setRating} />
 
             <textarea
-              ref={ref}
               className="max-h-96 min-h-16 w-full rounded border p-2"
               style={{ height: textAreaHeight }}
               value={feedback}
@@ -139,7 +131,11 @@ const HomePage = () => {
               </div>
               <button
                 onClick={submitFeedback}
-                className="rounded-lg border-2 border-manualBlue px-2 py-1 transition-colors hover:bg-manualBlue hover:text-white"
+                className={`rounded-lg border-2 px-2 py-1 transition-colors ${
+                  justSubmitted
+                    ? 'border-green-600 bg-green-600 text-white'
+                    : 'border-manualBlue hover:bg-manualBlue hover:text-white'
+                }`}
               >
                 Submit
               </button>

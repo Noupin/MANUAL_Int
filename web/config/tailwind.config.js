@@ -8,6 +8,7 @@ module.exports = {
         manualLightBlue: '#9db5ea',
         manualLighterBlue: '#cedaf5',
         manualDarkBlue: '#072a7a',
+        manualWhite: '#FBFCFF',
       },
     },
   },
